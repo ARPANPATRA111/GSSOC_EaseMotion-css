@@ -1,108 +1,81 @@
-:root {
-    --ease-border-color: #6c63ff;
-    --ease-border-speed: 0.4s;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #0f172a;
-    color: #f8fafc;
-    margin: 0;
-    font-family: system-ui, -apple-system, sans-serif;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    align-items: center;
-}
-
-.demo-button {
-    background: transparent;
-    color: #f8fafc;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    cursor: pointer;
-}
-
-.demo-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2rem;
-    width: 300px;
-    text-align: center;
-}
-
 /* ============================================================
-   Component: ease-hover-border-draw
+   EaseMotion CSS — ease-hover-border-draw
+   Border draws itself around element on hover
+   ::before = top + right, ::after = bottom + left
    ============================================================ */
 
-.ease-hover-border-draw {
-    position: relative;
-    box-sizing: border-box; 
+.draw-wrap {
+  display: flex;
+  justify-content: center;
 }
 
-.ease-hover-border-draw::before,
-.ease-hover-border-draw::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border: 2px solid transparent; 
-    box-sizing: border-box;
+.draw-card {
+  position: relative;
+  width: 240px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2a2a2a;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  overflow: hidden;
 }
 
-/* ::before handles Top and Right borders */
-.ease-hover-border-draw::before {
-    top: 0;
-    left: 0;
+.draw-card span {
+  position: relative;
+  z-index: 2;
 }
 
-/* ::after handles Bottom and Left borders */
-.ease-hover-border-draw::after {
-    bottom: 0;
-    right: 0;
+/* ::before → top (width) + right (height) */
+.draw-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  background: transparent;
+  border-top: 2px solid var(--ease-border-draw-color, #a78bfa);
+  border-right: 2px solid var(--ease-border-draw-color, #a78bfa);
+  transition:
+    width var(--ease-border-draw-speed, 0.3s) ease,
+    height var(--ease-border-draw-speed, 0.3s) ease var(--ease-border-draw-speed, 0.3s);
+  pointer-events: none;
 }
 
-.ease-hover-border-draw:hover::before,
-.ease-hover-border-draw:hover::after {
-    width: 100%;
-    height: 100%;
+/* ::after → bottom + left */
+.draw-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  background: transparent;
+  border-bottom: 2px solid var(--ease-border-draw-color, #a78bfa);
+  border-left: 2px solid var(--ease-border-draw-color, #a78bfa);
+  transition:
+    width var(--ease-border-draw-speed, 0.3s) ease calc(var(--ease-border-draw-speed, 0.3s) * 2),
+    height var(--ease-border-draw-speed, 0.3s) ease calc(var(--ease-border-draw-speed, 0.3s) * 1);
+  pointer-events: none;
 }
 
-/* --- The Hover State (Draw) --- */
-
-.ease-hover-border-draw:hover::before {
-    border-top-color: var(--ease-border-color);
-    border-right-color: var(--ease-border-color);
-    transition: 
-        width calc(var(--ease-border-speed) / 2) ease-out 0s, 
-        height calc(var(--ease-border-speed) / 2) ease-out calc(var(--ease-border-speed) / 2);
+.draw-card:hover::before {
+  width: 100%;
+  height: 100%;
 }
 
-.ease-hover-border-draw:hover::after {
-    border-bottom-color: var(--ease-border-color);
-    border-left-color: var(--ease-border-color);
-    transition: 
-        border-color 0s ease-out var(--ease-border-speed), 
-        width calc(var(--ease-border-speed) / 2) ease-out var(--ease-border-speed), 
-        height calc(var(--ease-border-speed) / 2) ease-out calc(var(--ease-border-speed) * 1.5);
+.draw-card:hover::after {
+  width: 100%;
+  height: 100%;
 }
 
-.ease-hover-border-draw::before {
-    transition: 
-        border-color 0s ease-out calc(var(--ease-border-speed) * 2), 
-        height calc(var(--ease-border-speed) / 2) ease-out var(--ease-border-speed), 
-        width calc(var(--ease-border-speed) / 2) ease-out calc(var(--ease-border-speed) * 1.5);
-}
+/* ---- Alt color ---- */
 
-.ease-hover-border-draw::after {
-    transition: 
-        border-color 0s ease-out var(--ease-border-speed), 
-        height calc(var(--ease-border-speed) / 2) ease-out 0s, 
-        width calc(var(--ease-border-speed) / 2) ease-out calc(var(--ease-border-speed) / 2);
+.draw-alt {
+  --ease-border-draw-color: #22c55e;
 }

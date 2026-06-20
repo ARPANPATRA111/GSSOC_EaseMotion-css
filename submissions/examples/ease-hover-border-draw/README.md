@@ -1,28 +1,48 @@
-# Ease Hover Border Draw 
+# ease-hover-border-draw
 
-A pure CSS interaction where a solid border progressively draws itself around an element's perimeter when hovered.
+## What does it do?
+Border draws itself around an element on hover — top, right, bottom, left in sequence — using `::before` and `::after` pseudo-elements — pure CSS, no JavaScript.
 
-## What it does
-The `ease-hover-border-draw` utility creates a sequential, animated border effect. Using `::before` and `::after` pseudo-elements, it traces the perimeter of the container (Top → Right → Bottom → Left). When the user's cursor leaves the element, the animation smoothly reverses, erasing the border in the opposite direction without any visual glitches.
+## Features
+- `::before` draws top and right borders
+- `::after` draws bottom and left borders
+- Sequential animation via transition delays
+- Custom properties for color and speed
 
-## How to use it
-Apply the class to any block or inline-block element (like a button or a card). 
-
-```html
-<button class="ease-hover-border-draw">
-    Hover Me
-</button>
-```
-
-You can customize the color and the total animation duration using CSS variables:
+## Usage
 ```css
-:root {
-    --ease-border-color: #6c63ff; /* Default color */
-    --ease-border-speed: 0.4s;    /* Total time for 2 sides (0.8s for full perimeter) */
+.element::before {
+  /* top + right borders */
+  transition:
+    width 0.3s ease,
+    height 0.3s ease 0.3s;
+}
+
+.element::after {
+  /* bottom + left borders */
+  transition:
+    width 0.3s ease 0.6s,
+    height 0.3s ease 0.3s;
+}
+
+.element:hover::before,
+.element:hover::after {
+  width: 100%;
+  height: 100%;
 }
 ```
 
-## Why it fits EaseMotion CSS
-* **Zero Dependencies:** Fully CSS driven using intelligent `transition-delay` sequencing, requiring no JavaScript event listeners.
-* **Responsive:** It relies on percentage-based widths and heights (`100%`), meaning it perfectly traces the element regardless of its dimensions or responsive resizing.
-* **Polished Interaction:** The careful calculation of the "rewind" state (when the mouse leaves) ensures the interaction feels premium and unbroken, tracing its exact steps backward rather than resetting harshly.
+## Customisation
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `--ease-border-draw-color` | `#a78bfa` | Border color |
+| `--ease-border-draw-speed` | `0.3s` | Duration per edge |
+
+## Browser Support
+- `::before`/`::after` + `transition` — Chrome 26+, Firefox 16+, Safari 6.1+
+
+## Tech Stack
+- HTML + CSS only, no JavaScript
+
+## Preview
+Open `demo.html` directly in browser.
